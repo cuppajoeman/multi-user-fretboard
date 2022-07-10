@@ -1,0 +1,112 @@
+table {
+    /* FULLSCREEN TABLE */
+    /*position: absolute;*/
+    top: 10%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    text-align:center;
+    border-collapse: collapse;
+}
+
+.float_left_absolute {
+   /*float: right;*/
+    position: absolute;
+    left: 5%;
+}
+
+.float_right_absolute {
+    /*float: right;*/
+    position: absolute;
+    right: 5%;
+}
+
+#fretboard {
+    height: 90vh;
+    margin:0;
+    padding:0;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+
+#top_bar {
+    height: 10vh;
+    margin:0;
+    padding:0;
+    text-align: center;
+    font-size: 8vh;
+    color: bisque;
+    background-color: darkblue;
+}
+
+
+.fret {
+    background-color: #451004;
+    transition: background-color 250ms linear;
+    user-select: none;
+}
+
+
+.marked {
+    background-color: goldenrod ;
+}
+
+.fretted {
+    background-color: blue ;
+}
+
+.activated{
+    transition: background-color 0.001ms linear;
+    background-color: green;
+}
+
+.just_played {
+
+}
+
+.notransition {
+    transition: none !important;
+}
+
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    /*-webkit-animation: spin 2s linear infinite; !* Safari *!*/
+    /*animation: spin 1s cubic-bezier(0,.45,1,.65) infinite;*/
+}
+
+#progress_bar {
+    width: 100%;
+    background-color: #ddd;
+}
+
+#progress {
+    /*width: 10%;*/
+    height: 30px;
+    background-color: #04AA6D;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.centered_container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}

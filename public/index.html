@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Socket.IO whiteboard</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="fretboard.css">
+</head>
+<body>
+  
+ <div id="under">
+  <div id="top_bar">
+      <span class="float_left_absolute">𝓚: <span id="key" class="bold"></span></span>
+      <span id="chord_window" class="bold"></span>
+      <span id="settings_button" class="float_right_absolute">⚙</span>
+  </div>
+
+  <div id="fretboard"></div>
+ </div> 
+
+<script type="module"  src="fretboard.js"></script>
+
+<!-- <div id="myModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close">&times;</span>
+            <h2>Settings</h2>
+        </div>
+        <div class="modal-body">
+            <p>Keybindings</p>
+            <ul>
+                <li>M - toggles melody mode</li>
+                <li>H - toggles harmony mode</li>
+                <ul><li>in this mode press space to sound your notes</li></ul>
+                <li>A - mark a random fret on the fretboard (Anchor)</li>
+                <li>U - unmark all frets</li>
+                <li>C - clear all frets that are fretted</li>
+            </ul>
+            <hr/>
+            <p>Key</p>
+            <input style="background-color: rgb(25, 25, 50); color: white;" type="text" id="key_input">
+        </div>
+        <div class="modal-footer">
+            <h3 style="display: inline-block;">Save Area</h3>
+            <button id="save_button" style="float: right;">Save Settings</button>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="modal/modal.js"></script> -->
+  
+
+  <canvas id="cursor" class="whiteboard" ></canvas>
+  <canvas id="draw" class="whiteboard" ></canvas>
+
+  <!-- <div class="colors">
+    <div class="color black"></div>
+    <div class="color red"></div>
+    <div class="color green"></div>
+    <div class="color blue"></div>
+    <div class="color yellow"></div>
+  </div> -->
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/main.js"></script>
+</body>
+</html>
