@@ -58,6 +58,14 @@ import {ClientMessage} from "./classes/client_message.js";
     function (e) {
       mouse.x = e.clientX||e.touches[0].clientX;
       mouse.y = e.clientY||e.touches[0].clientY;
+      
+      drawCursor(mouse.x, mouse.y, "green");
+    }
+  , false);
+
+ canvas.addEventListener('mousedown', 
+    function (e) {
+      clickOnHTML(mouse.x, mouse.y);
     }
   , false);
   
@@ -92,15 +100,19 @@ import {ClientMessage} from "./classes/client_message.js";
     cursorContext.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
     for (const user of serverMessage.connectedUsers) {
       // Draw their cursor
-      let x = user.position[0] * cursorCanvas.width;
-      let y = user.position[1] * cursorCanvas.height;
-      
-      
-      drawCursor(x, y, "red");
+      // 
+      if (user.id != socket.id) {
+        let x = user.position[0] * cursorCanvas.width;
+        let y = user.position[1] * cursorCanvas.height;
+        
+        
+        drawCursor(x, y, "red");
 
-      if (user.mousePressed && ! user.mouseHeld) {
-          console.log("user pressing");
-         clickOnHTML(x, y); 
+        if (user.mousePressed && ! user.mouseHeld) {
+            console.log("user pressing");
+           clickOnHTML(x, y); 
+        }
+
       }
 
     }
