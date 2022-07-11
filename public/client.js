@@ -1,6 +1,11 @@
 'use strict';
 
-import {ClientMessage} from "./classes/client_message.js";
+const ClientMessage = require( "./classes/client_message.js");
+const FretboardSession = require('./classes/fretboard_session.js');
+const User = require('./classes/user.js');
+
+// Create client player and then draw that separately by storing a version of the serverMessage and updates that player in there.
+//separate draw loop using timeout.  
 
 (function() {
 
@@ -13,6 +18,8 @@ import {ClientMessage} from "./classes/client_message.js";
 
   var context = canvas.getContext('2d');
   var cursorContext = cursorCanvas.getContext('2d');
+  
+  var clientFretboardSession = new FretboardSession();
 
   let CONSTANTS = {
     PEN_COLOR: 'black',
@@ -49,6 +56,8 @@ import {ClientMessage} from "./classes/client_message.js";
     );
   // }, 1000/CONSTANTS.CLIENT_SEND_FREQUENCY);
   }, 1000/60);
+
+  setInterval(draw, 1000/60);
   
   function getRelativeLocation() {
     return [mouse.x / canvas.width, mouse.y / canvas.height]
@@ -59,7 +68,14 @@ import {ClientMessage} from "./classes/client_message.js";
       mouse.x = e.clientX||e.touches[0].clientX;
       mouse.y = e.clientY||e.touches[0].clientY;
       
-      drawCursor(mouse.x, mouse.y, "green");
+      // TODO THIS IS BROKEN
+      // let clientUser = clientFretboardSession.getUser(socket.id);
+      
+      // if (clientUser) {
+      //   clientUser.position[0] = mouse.x;
+      //   clientUser.position[1] = mouse.y;
+      // }
+      
     }
   , false);
 
@@ -95,26 +111,43 @@ import {ClientMessage} from "./classes/client_message.js";
   
   function processUpdate(serverMessage) {
     // data is a FretboardSession 
-    
-    // Clear the screen
-    cursorContext.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+    // 
     for (const user of serverMessage.connectedUsers) {
-      // Draw their cursor
-      // 
+      let currentUser = clientFretboardSession.getUser(user.id);
+      
+
+      if (!currentUser) {
+        clientFretboardSession.addUser(new User(user.id));
+        currentUser = clientFretboardSession.getUser(user.id);
+      } 
+
+      currentUser.position[0] = user.position[0]; // We can update their position twice that's fine
+      currentUser.position[1] = user.position[1]; // We can update their position twice that's fine
+      
+
+      // But don't click twice.
       if (user.id != socket.id) {
-        let x = user.position[0] * cursorCanvas.width;
-        let y = user.position[1] * cursorCanvas.height;
-        
-        
-        drawCursor(x, y, "red");
 
         if (user.mousePressed && ! user.mouseHeld) {
-            console.log("user pressing");
            clickOnHTML(x, y); 
         }
-
       }
+    }
+  }
 
+  function draw() {
+    // Clear the screen
+    cursorContext.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+    for (const user of clientFretboardSession.connectedUsers) {
+      // Draw their cursor
+      let x = user.position[0] * cursorCanvas.width;
+      let y = user.position[1] * cursorCanvas.height;
+
+      if (user.id == socket.id) {
+        drawCursor(x, y, "red");
+      } else {
+        drawCursor(x, y, "grey");
+      }
     }
   }
 

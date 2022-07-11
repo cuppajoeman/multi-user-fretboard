@@ -1,19 +1,23 @@
 {
-  "name": "whiteboard",
+  "name": "fretboard",
   "version": "1.0.0",
-  "description": "A simple collaborative whiteboard using socket.io",
-  "main": "index.js",
+  "description": "",
+  "main": "server.js",
   "keywords": [
     "socket.io",
     "whiteboard"
   ],
   "dependencies": {
     "express": "~4.17.1",
+    "requirejs": "^2.3.6",
     "socket.io": "^4.0.0"
   },
   "scripts": {
-    "start": "node index"
+    "start": "node server"
   },
-  "author": "Damien Arrachequesne",
-  "license": "MIT"
+  "author": "Callum Cassidy-Nolan",
+  "license": "MIT",
+  "devDependencies": {
+    "browserify": "^17.0.0"
+  }
 }

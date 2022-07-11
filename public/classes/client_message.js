@@ -5,4 +5,4 @@ class ClientMessage {
     }
 }
 
-export { ClientMessage };
+module.exports = ClientMessage;
