@@ -3,6 +3,7 @@
 const ClientMessage = require( "./classes/client_message.js");
 const FretboardSession = require('./classes/fretboard_session.js');
 const User = require('./classes/user.js');
+const constants = require('./constants');
 
 // Create client player and then draw that separately by storing a version of the serverMessage and updates that player in there.
 //separate draw loop using timeout.  
@@ -21,14 +22,6 @@ const User = require('./classes/user.js');
   
   var clientFretboardSession = new FretboardSession();
 
-  let CONSTANTS = {
-    PEN_COLOR: 'black',
-    CURSOR_COLOR: 'red',
-    OTHER_CURSOR_COLOR: 'grey',
-    LAYERS_ABOVE_HTML: 2,
-    CLIENT_SEND_FREQUENCY: 60 // hz
-  }
-  
   var mouse = {
     x: 0,
     y: 0,
@@ -54,10 +47,9 @@ const User = require('./classes/user.js');
     socket.emit('client_message',
       new ClientMessage(getRelativeLocation(), mousePressed)
     );
-  // }, 1000/CONSTANTS.CLIENT_SEND_FREQUENCY);
-  }, 1000/60);
+  }, 1000/constants.CLIENT_SEND_FREQUENCY);
 
-  setInterval(draw, 1000/60);
+  setInterval(draw, 1000/constants.CLIENT_DRAW_FREQUENCY);
   
   function getRelativeLocation() {
     return [mouse.x / canvas.width, mouse.y / canvas.height]
@@ -103,7 +95,7 @@ const User = require('./classes/user.js');
   
   function clickOnHTML(x, y) {
 
-    let clickedElement = document.elementsFromPoint(x, y)[CONSTANTS.LAYERS_ABOVE_HTML];
+    let clickedElement = document.elementsFromPoint(x, y)[constants.LAYERS_ABOVE_HTML];
     clickedElement.click();
 
   }
@@ -128,6 +120,9 @@ const User = require('./classes/user.js');
       // But don't click twice.
       if (user.id != socket.id) {
 
+        let x = user.position[0] * cursorCanvas.width;
+        let y = user.position[1] * cursorCanvas.height;
+        
         if (user.mousePressed && ! user.mouseHeld) {
            clickOnHTML(x, y); 
         }

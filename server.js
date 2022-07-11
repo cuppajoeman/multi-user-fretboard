@@ -6,6 +6,7 @@ const port = process.env.PORT || 3000;
 
 const User = require('./public/classes/user.js');
 const FretboardSession = require('./public/classes/fretboard_session.js');
+const constants = require('./public/constants.js');
 
 let fretboardSession = new FretboardSession();
 
@@ -53,6 +54,6 @@ setInterval(() => {
     );
   }
   lastSentMessage = JSON.stringify(fretboardSession)
-}, 1000/60);
+}, 1000/constants.SERVER_SEND_FREQUENCY);
 
 
