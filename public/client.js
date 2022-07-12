@@ -60,13 +60,12 @@ const constants = require('./constants');
       mouse.x = e.clientX||e.touches[0].clientX;
       mouse.y = e.clientY||e.touches[0].clientY;
       
-      // TODO THIS IS BROKEN
-      // let clientUser = clientFretboardSession.getUser(socket.id);
-      
-      // if (clientUser) {
-      //   clientUser.position[0] = mouse.x;
-      //   clientUser.position[1] = mouse.y;
-      // }
+      let clientUser = clientFretboardSession.getUser(socket.id);
+
+      if (clientUser) {
+        clientUser.position[0] = mouse.x/canvas.width;
+        clientUser.position[1] = mouse.y/canvas.height;
+      }
       
     }
   , false);
@@ -113,12 +112,11 @@ const constants = require('./constants');
         currentUser = clientFretboardSession.getUser(user.id);
       } 
 
-      currentUser.position[0] = user.position[0]; // We can update their position twice that's fine
-      currentUser.position[1] = user.position[1]; // We can update their position twice that's fine
-      
-
       // But don't click twice.
-      if (user.id != socket.id) {
+      if (user.id !== socket.id) {
+
+        currentUser.position[0] = user.position[0]; // We can update their position twice that's fine
+        currentUser.position[1] = user.position[1]; // We can update their position twice that's fine
 
         let x = user.position[0] * cursorCanvas.width;
         let y = user.position[1] * cursorCanvas.height;
@@ -138,7 +136,7 @@ const constants = require('./constants');
       let x = user.position[0] * cursorCanvas.width;
       let y = user.position[1] * cursorCanvas.height;
 
-      if (user.id == socket.id) {
+      if (user.id === socket.id) {
         drawCursor(x, y, "red");
       } else {
         drawCursor(x, y, "grey");
